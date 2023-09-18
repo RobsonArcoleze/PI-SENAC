@@ -1,32 +1,106 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Alzheimer help</title>
-</head>
-<body>
-  <header>
-    <div class="header__container">
-      <h1><span>Pensando em proteger ainda mais aqueles que vieram antes de você?</span> <br/> Nós podemos ajudar! </h1>
-      <img class="alzheimer__logo" src="../assets/img/logo_PI.png" alt="Logo Alzheimer help" />
+<header class="header">
+  <div style="display: flex; justify-content: center;">
+    <img src="../assets/img/WhatsApp Image 2023-09-16 at 18.25.36.jpeg"  width="200px" height="150px" style="padding: 1vw;">
+  </div>
+</header>
+<main>
+  <div>
+    <div class="container"><h1>O que é o Alzheimer Help, e como usar</h1></div>
+    <div class="container">
+        <p class="paragrafo">O alzheimer help é uma pagina de compartilhamento de conteudo sobre o alzheimer. Os usuários podem se cadastrar em nossa página e compartilhar informações, histórias e contar um pouco sobre como essa doença afetou a sua vida e de pessoas próximas</p>
     </div>
-  </header>
-  <main>
-    <p>Conteúdo aqui</p>
+  </div>
+<hr>
+<div class="container">
+    <img src="../assets/img/informativo.jpeg" alt="" width="100px" height="100px">
+  <h2>Cadastro</h2>
+</div>
+  <section class="cadastro">
+    <div class="container" style="margin-top: 10px;">
+      <form class="formulario" nz-form [formGroup]="usuario" (ngSubmit)="cadastrarPessoa()">
+        <nz-form-item>
+          <nz-form-control [nzSpan]="12" nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="userErrorTpl">
+            <input nzRequired nz-input formControlName="nome" placeholder="Informe o nome" />
+            <ng-template #userErrorTpl let-control>
+              <ng-container *ngIf="control.hasError('required')">Por favor digite o seu nome!</ng-container>
+            </ng-template>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-control [nzSpan]="12" nzHasFeedback [nzErrorTip]="emailErrorTpl">
+            <input nzRequired nz-input formControlName="email" placeholder="Informe o seu email" type="email" />
+            <ng-template #emailErrorTpl let-control>
+              <ng-container *ngIf="control.hasError('email')">Por favor digite o seu email!</ng-container>
+            </ng-template>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-control [nzSpan]="12" nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="userErrorTpl">
+            <input nzRequired nz-input formControlName="profissao" placeholder="Informe a sua profissão" />
+            <ng-template #userErrorTpl let-control>
+              <ng-container *ngIf="control.hasError('required')">Por favor informe a sua profissão!</ng-container>
+            </ng-template>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-control [nzSpan]="12" nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="userErrorTpl">
+            <input nzRequired nz-input formControlName="idade" placeholder="Informe a sua Idade" type="number" />
+            <ng-template #userErrorTpl let-control>
+              <ng-container *ngIf="control.hasError('required')">Por favor informe a sua idade!</ng-container>
+            </ng-template>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-control [nzSpan]="12" nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="userErrorTpl">
+            <input nzRequired nz-input formControlName="telefone" placeholder="Informe o seu telefone" type="tel" />
+            <ng-template #userErrorTpl let-control>
+              <ng-container *ngIf="control.hasError('required')">Por favor informe o seu numero!</ng-container>
+            </ng-template>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-control [nzSpan]="12" nzHasFeedback nzErrorTip="Please write something here!">
+            <nz-textarea-count [nzMaxCharacterCount]="1000" style="width: 500px;">
+              <textarea nzRequired formControlName="descricao" nz-input rows="2" placeholder="Informe sua história"></textarea>
+            </nz-textarea-count>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-control [nzOffset]="7" [nzSpan]="12" class="container">
+            <button nz-button nzType="ngSubmit" >Cadastrar</button>
 
-  </main>
-  <footer>
-    <div class="footer__container">
-      <div class="footer_icon">
-        <img class="footer__logo" src="../assets/img/facebook.png" alt="facebook logo"/>
-        <img class="footer__logo" src="../assets/img/instagram.png" alt="instagram logo"/>
-        <img class="footer__logo" src="../assets/img/envelope.png" alt="envelope logo"/>
-      </div>
-
-      <p class="copyright"><b>© Alzheimer Help 2023 Grupo-03 SENAC-ADS</b></p>
+          </nz-form-control>
+        </nz-form-item>
+      </form>
     </div>
-  </footer>
+  </section>
 
-</body>
-</html>
+  <div class="container__card-pack">
+    <span class="container__card" *ngFor="let dados of pessoas">
+      <span class="card" *ngIf="dados != null || dados != dados; else semInformacoes">
+        <h2>{{ dados.nome }}</h2>
+        <p>{{ dados.descricao }}</p>
+        <button nz-button (click)="showModal()"><span>Conectar</span></button>
+          <nz-modal [(nzVisible)]="isVisible" nzTitle="{{ dados.nome }}" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+            <ng-container *nzModalContent>
+              <p>Profissão: {{ dados.profissao }}</p>
+              <p>Idade: {{ dados.idade }}</p>
+              <p>Telefone: {{ dados.telefone }}</p>
+              <p>Email: {{ dados.email }}</p>
+            </ng-container>
+          </nz-modal>
+      </span>
+    </span>
+  </div>
+
+  <ng-template #semInformacoes>
+    <span style="color: red;">Sem informações para listar!</span>
+  </ng-template>
+</main>
+
+<footer>
+  <div class="container">
+    <p style="margin-top: 30px;" class="copyright">© Alzheimer Help 2023 Grupo-03 SENAC-ADS</p>
+  </div>
+</footer>
+

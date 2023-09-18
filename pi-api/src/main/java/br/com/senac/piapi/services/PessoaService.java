@@ -6,13 +6,9 @@ import br.com.senac.piapi.repositories.PessoaRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
-import org.springframework.boot.Banner;
 import org.springframework.stereotype.Service;
 
-import java.sql.SQLDataException;
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 @Service @AllArgsConstructor @Slf4j
 public class PessoaService {
@@ -43,6 +39,8 @@ public class PessoaService {
         pessoa.setNome(dto.getNome());
         pessoa.setIdade(dto.getIdade());
         pessoa.setProfissao(dto.getProfissao());
+        pessoa.setEmail(dto.getEmail());
+        pessoa.setTelefone(dto.getTelefone());
         pessoa = pessoaRepository.save(pessoa);
         return mapper.map(pessoa, PessoaDto.class);
     }

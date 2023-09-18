@@ -40,5 +40,12 @@ public class Pessoa {
     @JdbcTypeCode(SqlTypes.VARCHAR)
     private String descricao;
 
+    @Column(name = "telefone")
+    @JdbcTypeCode(SqlTypes.VARCHAR)
+    private String telefone;
+
+    @Column(name = "email")
+    @JdbcTypeCode(SqlTypes.VARCHAR)
+    private String email;
 
 }
